@@ -1,3 +1,13 @@
+The Mastermind Game  - game in which you must guess a number that is randomly generated for three 
+different levels.
+To play the game:
+1. Select the user
+2. Choose the level - easy(1-10), medium(10-100), hard(100-1000)
+3. Put your umber and press guess
+4. If  you guess you will see message "You win!!!" above guess button, otherwise a toltip "More" or "Less"
+5. Each attempt will be displayed in History sidebar too wich you can clean.
+6. Good luck!
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
