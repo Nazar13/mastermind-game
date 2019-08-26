@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
-import GuessForm from '../guessForm/GuessForm.js';
+import GuessForm from './GuessForm.js';
 import { defaultUsers } from '../defaultUsersList.js'
-
 
 class UserList extends Component {
     state = {
@@ -33,7 +32,6 @@ class UserList extends Component {
     render() {
         console.log(this.state.currentPlayer);
         return (
-            <>
                 <div className="row mh100">
                     <div className="col-md-2">
                         <h3>Select User</h3>
@@ -46,7 +44,6 @@ class UserList extends Component {
                         {this.renderCurrentUser()}
                     </div>
                 </div>
-            </>
         )
     }
 }

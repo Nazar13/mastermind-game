@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
-import './App.css';
+import '../assets/App.css';
 import "bootstrap/dist/css/bootstrap.min.css";
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
-import CreateUser from './create/CreateUser';
-import EditUser from './edit/EditUser';
-import UserList from './userlist/UserList.js';
+import CreateUser from './CreateUser';
+import UserList from './UserList.js';
 
 class App extends Component {
 
@@ -28,7 +27,6 @@ class App extends Component {
             </nav>
             <br/>
             <Route path="/" exact component={UserList} />
-            <Route path="/edit/:id" component={EditUser} />
             <Route path="/create" component={CreateUser} />
         </div>  
       </Router>

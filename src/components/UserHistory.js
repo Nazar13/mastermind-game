@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 
-class History extends Component {
+class UserHistory extends Component {
 
     renderTableData(){
         const data = this.props.history;
@@ -35,4 +35,4 @@ class History extends Component {
     } 
 }
 
-export default History;
+export default UserHistory;
