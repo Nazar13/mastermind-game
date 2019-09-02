@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 
-class DeleteUser extends Component {
+class DeletePlayer extends Component {
     
     render() {
-        let {deleteUser, cancel} = this.props;
+        let {deletePlayer, cancel} = this.props;
         return (
             <div className="row">
                 <div className="col-md-12">
@@ -11,11 +11,11 @@ class DeleteUser extends Component {
                 </div>  
                 <div className="offset-md-7 col-md-5">   
                     <button onClick={() => {cancel({delete:false})}} className="btn btn-outline-secondary">No</button>
-                    <button onClick={() => {deleteUser()}} className="btn btn-outline-success">Yes</button>
+                    <button onClick={() => {deletePlayer()}} className="btn btn-outline-success">Yes</button>
                     </div>
             </div>
         )
     }
 }
 
-export default DeleteUser;
+export default DeletePlayer;

@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 
-class UserHistory extends Component {
+class PlayerHistory extends Component {
 
     renderTableData(){
         const data = this.props.history;
@@ -15,7 +15,7 @@ class UserHistory extends Component {
         })) : null;
     }
     
-    render(){
+    render() {
         return (
             <div>
                 <h3 className="text-center">History</h3>
@@ -35,4 +35,4 @@ class UserHistory extends Component {
     } 
 }
 
-export default UserHistory;
+export default PlayerHistory;

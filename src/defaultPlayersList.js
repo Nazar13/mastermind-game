@@ -1,4 +1,4 @@
-export const defaultUsers = [
+export const defaultPlayers = [
         {
             "id": 1,
             "name": "Jack",

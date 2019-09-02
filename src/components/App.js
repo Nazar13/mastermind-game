@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import '../assets/App.css';
 import "bootstrap/dist/css/bootstrap.min.css";
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
-import CreateUser from './CreateUser';
-import UserList from './UserList.js';
+import { BrowserRouter as Router, Route } from "react-router-dom";
+import Player from './containers/Player/Player.js';
+import Game from './containers/Game/Game.js';
+import Navbar from './Navbar';
 
 class App extends Component {
 
@@ -12,22 +13,9 @@ class App extends Component {
     return (
       <Router>
        <div className="container-fluid">
-            <nav className="navbar navbar-expand-lg navbar-light bg-info">
-              <Link to="/" className="navbar-brand">Masterminds App</Link>
-              <div className="collpase navbar-collapse">
-                <ul className="navbar-nav mr-auto">
-                  <li className="navbar-item">
-                    <Link to="/" className="nav-link">Play Game</Link>
-                  </li>
-                  <li className="navbar-item">
-                    <Link to="/create" className="nav-link">Create User</Link>
-                  </li>
-                </ul>
-              </div>
-            </nav>
-            <br/>
-            <Route path="/" exact component={UserList} />
-            <Route path="/create" component={CreateUser} />
+            <Navbar />
+            <Route path="/" exact component={Game} />
+            <Route path="/create" component={Player} />
         </div>  
       </Router>
     )

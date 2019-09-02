@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import UserHistory from './UserHistory.js';
+import PlayerHistory from './PlayerHistory.js';
 const modes = ["Easy", "Medium", "Hard"];
 
 class GuessForm extends Component {
@@ -109,7 +109,7 @@ class GuessForm extends Component {
                     </form>
                 </div>
                 <div className="col-md-6">
-                    <UserHistory history={history}/>
+                    <PlayerHistory history={history}/>
                     <button onClick={this.cleanHistory} className="btn btn-dark">Clear history</button>
                 </div>
             </div>     
