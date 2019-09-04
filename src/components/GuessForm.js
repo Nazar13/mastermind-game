@@ -18,44 +18,44 @@ class GuessForm extends Component {
 
     inputNumHandler = (e) => {
         if(e.target.value) {
-            this.setState({inputedNum: e.target.value, disable:false});
+            this.setState({inputedNum: e.target.value, disable: false});
         } else {
-            this.setState({inputedNum: e.target.value, disable:true, status:false});
+            this.setState({inputedNum: e.target.value, disable: true, status: false});
         }
     }
 
     onFocusHandler = (e) => {
-        this.setState({inputedNum:0});
-        this.setState({disable:true, status:false});
+        this.setState({inputedNum: 0});
+        this.setState({disable: true, status: false});
     }
 
-    disableGuesBtn = (e) => {
-        this.setState({disable:true});
+    disableGuesBtn = () => {
+        this.setState({disable: true});
     }
 
     guessBtnHandler = (e) => {
         e.preventDefault()
         this.setState({status: true});
-        let updHistory = {
-            "number": this.state.inputedNum,
-            "result": this.getGuessResult(),
+        const updHistory = {
+            number: this.state.inputedNum,
+            result: this.getGuessResult(),
         }
-        let newPlayer = [...this.props.player];
+        const newPlayer = [...this.props.player];
      
         newPlayer[0].history[this.state.activeMode].push(updHistory);
         this.setState({player: newPlayer});
     }
 
-    getGuessResult(){
+    getGuessResult() {
         const selectedNumber = this.state.numbers[this.state.activeMode];
         const { inputedNum } = this.state;
-        if(selectedNumber == inputedNum){
+        if(selectedNumber === inputedNum){
             return 'You win!!!';
         }
         return "You Lose";
     }
 
-    getMessage(){
+    getMessage() {
         const { activeMode, inputedNum } = this.state;
         const selectedNumber = this.state.numbers[activeMode];
         if(selectedNumber > inputedNum) {
@@ -78,13 +78,13 @@ class GuessForm extends Component {
     renderModesBar() {
         return modes.map((mode, index) => {
                 return <button key={index} 
-                        className={this.state.activeMode==mode?"active":null} 
+                        className={this.state.activeMode === mode ? "active" : null} 
                         name={mode} onClick={this.onModeHandlerClick} >{mode}</button>    
                 })
     }
 
     cleanHistory = () => {
-        let history = [...this.props.player];
+        const history = [...this.props.player];
         history[0].history[this.state.activeMode] = [];
         this.setState({player: history});
     }
@@ -96,7 +96,7 @@ class GuessForm extends Component {
                 <div className="col-md-6">
                     <h3 className="text-center">Play game</h3>
                     <div className="modesList">
-                        { this.renderModesBar() }
+                        {this.renderModesBar()}
                     </div>
                     <form onSubmit={this.guessBtnHandler} className="fblock">
                         <input type="number" 
@@ -104,7 +104,7 @@ class GuessForm extends Component {
                             onFocus={this.onFocusHandler}
                             onChange={this.inputNumHandler} autoComplete="off"/>
                         <br/> <br/>
-                        { this.state.status ? this.getMessage() : null }
+                        {this.state.status ? this.getMessage() : null}
                         <input type="submit" className="btn btn-success btnGuess" value="Guess" disabled={this.state.disable} />
                     </form>
                 </div>
