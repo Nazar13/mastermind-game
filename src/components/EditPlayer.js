@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 class EditPlayer extends Component {
     state = {
@@ -21,8 +22,8 @@ class EditPlayer extends Component {
         return (
             <div>
                 <h3 align="center">Enter Player Name</h3>
-                <div class="input-group mb-3">
-                    <input type="text" class="form-control" aria-describedby="basic-addon1"  
+                <div className="input-group mb-3">
+                    <input type="text" className="form-control" aria-describedby="basic-addon1"  
                         value={this.state.name} onChange={this.inputHandler}/>
                 </div>
                 <button onClick={this.cancelPlayerModifyActionHandler} className="btn btn-outline-secondary">Cancel</button>
@@ -33,3 +34,9 @@ class EditPlayer extends Component {
 }
 
 export default EditPlayer;
+
+EditPlayer.propTypes = {
+    player: PropTypes.array,
+    cancelPlayerModifyAction: PropTypes.func,
+    savePlayer: PropTypes.func, 
+  };

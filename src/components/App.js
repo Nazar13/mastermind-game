@@ -7,18 +7,16 @@ import Game from './containers/Game/Game.js';
 import Navbar from './Navbar';
 
 class App extends Component {
-
-  
   render() {
     return (
       <Router>
-       <div className="container-fluid">
-            <Navbar />
-            <Route path="/" exact component={Game} />
-            <Route path="/create" component={Player} />
-        </div>  
+        <div className="container-fluid">
+          <Navbar />
+          <Route path="/" exact component={Game} />
+          <Route path="/create" component={Player} />
+        </div>
       </Router>
-    )
+    );
   }
 }
 
