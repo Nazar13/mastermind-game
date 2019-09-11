@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import GuessForm from '../../GuessForm.js';
-import { defaultPlayers } from '../../../defaultPlayersList.js'
+import { defaultPlayers } from '../../defaultPlayersList.js'
+import GuessForm from '../../components/GuessForm/GuessForm.js';
 
 class Game extends Component {
     state = {

@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 const DeletePlayer = (props) => {
     
@@ -24,3 +25,9 @@ const DeletePlayer = (props) => {
 }
 
 export default DeletePlayer;
+
+DeletePlayer.propTypes = {
+    player: PropTypes.array,
+    deletePlayer: PropTypes.func,
+    cancelPlayerModifyAction: PropTypes.func, 
+  };

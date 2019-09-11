@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import { defaultPlayers } from '../../../defaultPlayersList.js';
-import AddPlayer from '../../AddPlayer.js';
-import EditPlayer from '../../EditPlayer.js';
-import DeletePlayer from '../../DeletePlayer.js';
+import { defaultPlayers } from '../../defaultPlayersList.js';
+import AddPlayer from '../../components/AddPlayer/AddPlayer.js';
+import EditPlayer from '../../components/EditPlayer/EditPlayer.js';
+import DeletePlayer from '../../components/DeletePlayer/DeletePlayer.js';
 
 class Player extends Component {
     state = {
@@ -76,7 +76,7 @@ class Player extends Component {
             <div className="row">
                 <div className="col-md-6">
                     <h3 className="mb20" align="center">Players</h3>
-                    <table class="table">
+                    <table className="table">
                         <thead>
                             <tr>
                             <th scope="col">#</th>
@@ -86,7 +86,7 @@ class Player extends Component {
                             </tr>
                         </thead>
                         <tbody>
-                            {defaultPlayers.map((player,index) => <tr>
+                            {defaultPlayers.map((player,index) => <tr key={player.id*player.id}>
                                 <td>{index + 1}</td>
                                 <td key={player.id} value={player.name}>{player.name}</td>
                                 <td><button onClick={()=>this.onEdit(player.id)} className="btn btn-outline-primary">Edit Player</button></td>
@@ -96,14 +96,14 @@ class Player extends Component {
                         </tbody>
                     </table>
                     <button onClick={this.onAdd} className="btn btn-outline-success">Add Player</button>
-                    {this.state.create ? <AddPlayer addNewPlayer={this.addNewPlayer} 
-                                                    cancelPlayerModifyAction={this.cancelPlayerModifyAction}/>: null }
+                    {this.state.create && <AddPlayer addNewPlayer={this.addNewPlayer} 
+                                                    cancelPlayerModifyAction={this.cancelPlayerModifyAction}/>}
                 </div>
                 <div className="col-md-6">
-                    {this.state.edit ? <EditPlayer player={editedPlayer} savePlayer={this.savePlayer} 
-                                                   cancelPlayerModifyAction={this.cancelPlayerModifyAction}/>: null }
-                    {this.state.delete ? <DeletePlayer player={editedPlayer} deletePlayer={this.deletePlayer} 
-                                                       cancelPlayerModifyAction={this.cancelPlayerModifyAction}/>: null }
+                    {this.state.edit && <EditPlayer player={editedPlayer} savePlayer={this.savePlayer} 
+                                                   cancelPlayerModifyAction={this.cancelPlayerModifyAction}/>}
+                    {this.state.delete && <DeletePlayer player={editedPlayer} deletePlayer={this.deletePlayer} 
+                                                       cancelPlayerModifyAction={this.cancelPlayerModifyAction}/>}
                 </div>                
             </div>
         )

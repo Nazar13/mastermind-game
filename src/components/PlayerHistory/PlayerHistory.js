@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 
 const PlayerHistory = (props) => {
     
@@ -7,12 +8,12 @@ const PlayerHistory = (props) => {
         return data.length ? (
             data.map((item) => {
             return ( 
-                <tr>
+                <tr key={item.number}>
                     <td>{item.number}</td><td>{item.result}</td>
                 </tr>
             )
         })) : null;
-    };
+    }
 
     return (
         <div>
@@ -32,3 +33,9 @@ const PlayerHistory = (props) => {
 }
 
 export default PlayerHistory;
+
+PlayerHistory.propTypes = {
+    history: PropTypes.array,
+    deletePlayer: PropTypes.func,
+    cancelPlayerModifyAction: PropTypes.func, 
+  };
