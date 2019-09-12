@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
-import { defaultPlayers } from '../../defaultPlayersList.js';
 import AddPlayer from '../../components/AddPlayer/AddPlayer.js';
 import EditPlayer from '../../components/EditPlayer/EditPlayer.js';
 import DeletePlayer from '../../components/DeletePlayer/DeletePlayer.js';
+import { connect } from 'react-redux';
+import { addNewPlayer, savePlayer, deletePlayer } from '../../actions/actions.js';
 
 class Player extends Component {
     state = {
-        players: defaultPlayers,
         create: false,
         edit: false,
         delete: false,
@@ -15,17 +15,18 @@ class Player extends Component {
     }
 
     addNewPlayer = (name) => {
-        const len = defaultPlayers[defaultPlayers.length-1].id + 1;
-        defaultPlayers.push({   
+        const { players } = this.props;
+        const len = players[players.length-1].id + 1;
+        const newPlayer = {
             "id": len,
             "name": name,
             "history": {
                 "Easy": [],
                 "Medium": [],
                 "Hard": []
+               }   
             }
-        });
-        this.setState({players: defaultPlayers});
+        this.props.addPlayer(newPlayer);
         this.setState({create: false});
     }
 
@@ -34,14 +35,14 @@ class Player extends Component {
     }
 
     onEdit = (id) => {
-        const currentUser = this.state.players.filter((player) => player.id === id);
-        this.setState({editedPlayer: currentUser});
+        const currentPlayer = this.props.players.filter((player) => player.id === id);
+        this.setState({editedPlayer: currentPlayer});
         this.setState({edit: true});
     }
 
     onDelete = (id) => {
-        let currentUser = this.state.players.filter((player) => player.id === id);
-        this.setState({editedPlayer: currentUser});
+        let currentPlayer = this.props.players.filter((player) => player.id === id);
+        this.setState({editedPlayer: currentPlayer});
         this.setState({delete: true});
     }
 
@@ -50,23 +51,24 @@ class Player extends Component {
     }
 
     savePlayer = (name) => {
-        const players = [...this.state.players];
+        const players = [...this.props.players];
         players.forEach(player => {
             if(player.id === this.state.editedPlayer[0].id) {
                 player.name = name;
             }
         });
-        this.setState({players: players});
+        this.props.editPlayer(players);
         this.setState({edit: false});
     }
 
     deletePlayer = () => {
-        for( let i = 0; i < defaultPlayers.length; i++){ 
-            if ( defaultPlayers[i].id === this.state.editedPlayer[0].id) {
-                defaultPlayers.splice(i, 1); 
+        const { players } = this.props;
+         for( let i = 0; i < players.length; i++){ 
+            if ( players[i].id === this.state.editedPlayer[0].id) {
+                players.splice(i, 1); 
             }
          }
-        this.setState({players: defaultPlayers});
+        this.props.deletePlayer(players);
         this.setState({delete: false});
     }
 
@@ -86,7 +88,7 @@ class Player extends Component {
                             </tr>
                         </thead>
                         <tbody>
-                            {defaultPlayers.map((player,index) => <tr key={player.id*player.id}>
+                            {this.props.players.map((player,index) => <tr key={player.id*player.id}>
                                 <td>{index + 1}</td>
                                 <td key={player.id} value={player.name}>{player.name}</td>
                                 <td><button onClick={()=>this.onEdit(player.id)} className="btn btn-outline-primary">Edit Player</button></td>
@@ -107,7 +109,21 @@ class Player extends Component {
                 </div>                
             </div>
         )
+}
+}
+
+const mapDispatchToProps = dispatch => {
+    return {
+        addPlayer: newPlayer => {
+            dispatch(addNewPlayer(newPlayer))
+        },
+        editPlayer: players => {
+            dispatch(savePlayer(players))
+        },
+        deletePlayer: id => {
+            dispatch(deletePlayer(id))
+        }
     }
 }
 
-export default Player;
+export default connect(null, mapDispatchToProps)(Player);

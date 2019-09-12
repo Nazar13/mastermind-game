@@ -1,16 +1,14 @@
 import React, { Component } from 'react';
-import { defaultPlayers } from '../../defaultPlayersList.js'
 import GuessForm from '../../components/GuessForm/GuessForm.js';
 
 class Game extends Component {
     state = {
-        players: defaultPlayers,
         playerName: "Select user",
         currentPlayer: {}
     };
 
     generatePlayersList() {
-        const { players } = this.state;
+        const { players } = this.props;
         return players.map((user) => <option key={user.id} value={user.name}>{user.name}</option>)
     }
 
@@ -20,7 +18,7 @@ class Game extends Component {
     }
 
     setCurrentPlayer(playerName) {
-        const arr = [...this.state.players];
+        const arr = [...this.props.players];
         const selectedPlayer = arr.filter(user => user.name === playerName);
         this.setState({currentPlayer: selectedPlayer})
     }

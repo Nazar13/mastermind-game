@@ -1,6 +1,9 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import PlayerHistory from "../../components/PlayerHistory/PlayerHistory.js";
+import { updateHistory, clearHistory } from '../../actions/actions.js';
+import { connect } from 'react-redux';
+
 const modes = ["Easy", "Medium", "Hard"];
 
 class GuessForm extends Component {
@@ -45,9 +48,17 @@ class GuessForm extends Component {
       number: this.state.inputedNum,
       result: this.getGuessResult()
     };
+    const history1 = {
+      number: this.state.inputedNum,
+      result: this.getGuessResult(),
+      activeMod: this.state.activeMode,
+      id: this.props.player[0].id, 
+    };
     const newPlayer = [...this.props.player];
 
     newPlayer[0].history[this.state.activeMode].push(updHistory);
+
+    this.props.guessBtnAction(history1);
     this.setState({ player: newPlayer });
   };
 
@@ -102,6 +113,7 @@ class GuessForm extends Component {
   };
 
   render() {
+    console.log(this.props);
     const history = this.props.player[0].history[this.state.activeMode];
     return (
       <div className="row">
@@ -129,6 +141,7 @@ class GuessForm extends Component {
         </div>
         <div className="col-md-6">
           <PlayerHistory history={history} />
+          {/* <PlayerHistory history={this.props.player.history} /> */}
           <button onClick={this.cleanHistory} className="btn btn-dark">
             Clear history
           </button>
@@ -138,7 +151,18 @@ class GuessForm extends Component {
   }
 }
 
-export default GuessForm;
+const mapDispatchToProps = dispatch => {
+  return {
+      guessBtnAction: newPlayer => {
+          dispatch(updateHistory(newPlayer))
+      },
+      cleanHistoryAction: players => {
+          dispatch(clearHistory(players))
+      }
+  }
+}
+
+export default connect(null, mapDispatchToProps)(GuessForm);
 
 GuessForm.propTypes = {
   player: PropTypes.array,
