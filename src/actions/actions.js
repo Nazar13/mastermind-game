@@ -19,16 +19,16 @@
     }
   }
 
-  export const updateHistory = player => {
+  export const updateHistory = history => {
     return {
       type: "UPDATE_HISTORY",
-      payload: player
+      payload: history
     }
   }
 
-  export const clearHistory = player => {
+  export const clearHistory = (payload)=> {
     return {
-      type: "CLEAN_HISTORY",
-      payload: player
+      type: "CLEAR_HISTORY",
+      payload: payload
     }
   }

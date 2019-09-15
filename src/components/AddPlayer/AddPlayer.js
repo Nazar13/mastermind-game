@@ -17,6 +17,7 @@ class AddPlayer extends Component {
   };
 
   cancelPlayerModifyActionHandler = () => {
+    console.log(this.props);
     this.props.cancelPlayerModifyAction({ create: false });
   };
 
@@ -35,7 +36,7 @@ class AddPlayer extends Component {
           />
         </div>
         <button
-          onClick={this.cancelPlayerModifyAction}
+          onClick={this.cancelPlayerModifyActionHandler}
           className="btn btn-outline-secondary"
         >
           Cancel

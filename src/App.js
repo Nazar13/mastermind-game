@@ -14,9 +14,7 @@ class App extends Component {
       <Router>
         <div className="container-fluid">
           <Navbar />
-          {/* <Route path="/" exact component={Game} /> */}
-          {/* <Route path="/create" component={Player} /> */}
-          <Route path="/" exact render={() => <Game {...this.props} />} />
+          <Route path="/" exact render={() => <Game />} />
           <Route path="/create" render={() => <Player {...this.props} />} />
         </div>
       </Router>

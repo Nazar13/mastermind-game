@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 import GuessForm from '../../components/GuessForm/GuessForm.js';
+import { connect } from 'react-redux';
+import PropTypes from "prop-types";
 
 class Game extends Component {
     state = {
         playerName: "Select user",
-        currentPlayer: {}
+        currentPlayer: {},
     };
 
     generatePlayersList() {
@@ -20,29 +22,40 @@ class Game extends Component {
     setCurrentPlayer(playerName) {
         const arr = [...this.props.players];
         const selectedPlayer = arr.filter(user => user.name === playerName);
-        this.setState({currentPlayer: selectedPlayer})
+        this.setState({currentPlayer: selectedPlayer});
+        this.setState({currentPlayerId: selectedPlayer.id});
     }
 
     renderGameBoard() {
-        return this.state.playerName !== 'Select user' ?  <GuessForm player={this.state.currentPlayer}/> : null;
+        return this.state.playerName !== 'Select user' && <GuessForm currentPlayer={this.state.currentPlayer}/>;
     }
 
     render() {
         return (
-                <div className="row mh100">
-                    <div className="col-md-2">
-                        <h3>Select Player</h3>
-                        <select className="form-control mt20" onChange={this.changePlayer}>
-                            <option value='Select user'>Select player</option>
-                            {this.generatePlayersList()}
-                        </select>
-                    </div>
-                    <div className="col-md-8 offset-md-1">
-                        {this.renderGameBoard()}
-                    </div>
+            <div className="row mh100">
+                <div className="col-md-2">
+                    <h3>Select Player</h3>
+                    <select className="form-control mt20" onChange={this.changePlayer}>
+                        <option value='Select user'>Select player</option>
+                        {this.generatePlayersList()}
+                    </select>
                 </div>
+                <div className="col-md-8 offset-md-1">
+                    {this.renderGameBoard()}
+                </div>
+            </div>
         )
     }
 }
 
-export default Game;
+const mapStateToProps = state => {
+  return {
+    players: state.players,
+  };
+};
+
+export default connect(mapStateToProps)(Game);
+
+Game.propTypes = {
+    players: PropTypes.array,
+  };

@@ -1,10 +1,11 @@
-import React from "react";
+import React, { Component } from "react";
 import PropTypes from "prop-types";
+import { connect } from 'react-redux';
 
-const PlayerHistory = (props) => {
-    
-    function renderHistoryTableData(){
-        const data = props.history;
+class PlayerHistory extends Component {
+    renderHistoryTableData(){
+        const player = this.props.players.filter(user => user.id === this.props.id);
+        const data = player[0].history[this.props.activeMode];
         return data.length ? (
             data.map((item) => {
             return ( 
@@ -15,27 +16,35 @@ const PlayerHistory = (props) => {
         })) : null;
     }
 
-    return (
-        <div>
-            <h3 className="text-center">History</h3>
-            <table className="table table-striped">
-                <thead>
-                    <tr>
-                        <th>Number</th><th>Result</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {renderHistoryTableData()}
-                </tbody>
-            </table> 
-        </div>
-    );
+    render() {
+        return (
+            <div>
+                <h3 className="text-center">History</h3>
+                <table className="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Number</th><th>Result</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {this.renderHistoryTableData()}
+                    </tbody>
+                </table> 
+            </div>
+        );
+    }
 }
 
-export default PlayerHistory;
+const mapStateToProps = state => {
+  return {
+    players: state.players,
+  };
+};
+
+export default connect(mapStateToProps)(PlayerHistory);
 
 PlayerHistory.propTypes = {
-    history: PropTypes.array,
-    deletePlayer: PropTypes.func,
-    cancelPlayerModifyAction: PropTypes.func, 
-  };
+  id: PropTypes.number,
+  players: PropTypes.array,
+  activeMode: PropTypes.string
+};

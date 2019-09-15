@@ -4,6 +4,7 @@ import EditPlayer from '../../components/EditPlayer/EditPlayer.js';
 import DeletePlayer from '../../components/DeletePlayer/DeletePlayer.js';
 import { connect } from 'react-redux';
 import { addNewPlayer, savePlayer, deletePlayer } from '../../actions/actions.js';
+import PropTypes from "prop-types";
 
 class Player extends Component {
     state = {
@@ -127,3 +128,10 @@ const mapDispatchToProps = dispatch => {
 }
 
 export default connect(null, mapDispatchToProps)(Player);
+
+Player.propTypes = {
+    players: PropTypes.array,
+    deletePlayer: PropTypes.func,
+    editPlayer: PropTypes.func,
+    addPlayer: PropTypes.func,
+  };
