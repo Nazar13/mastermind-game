@@ -1,6 +1,9 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import PlayerHistory from "./PlayerHistory.js";
+import PlayerHistory from "../../components/PlayerHistory/PlayerHistory.js";
+import { updateHistory, clearHistory } from '../../actions/actions.js';
+import { connect } from 'react-redux';
+
 const modes = ["Easy", "Medium", "Hard"];
 
 class GuessForm extends Component {
@@ -14,7 +17,7 @@ class GuessForm extends Component {
       Medium: this.generateNumber(100),
       Hard: this.generateNumber(1000)
     },
-    player: this.props.player
+    currentPlayer: this.props.currentPlayer
   };
 
   inputNumHandler = e => {
@@ -41,14 +44,13 @@ class GuessForm extends Component {
   guessBtnHandler = e => {
     e.preventDefault();
     this.setState({ status: true });
-    const updHistory = {
+    const history = {
       number: this.state.inputedNum,
-      result: this.getGuessResult()
+      result: this.getGuessResult(),
+      activeMode: this.state.activeMode,
+      id: this.props.currentPlayer[0].id, 
     };
-    const newPlayer = [...this.props.player];
-
-    newPlayer[0].history[this.state.activeMode].push(updHistory);
-    this.setState({ player: newPlayer });
+    this.props.guessBtnAction(history);
   };
 
   getGuessResult() {
@@ -96,13 +98,14 @@ class GuessForm extends Component {
   }
 
   cleanHistory = () => {
-    const history = [...this.props.player];
-    history[0].history[this.state.activeMode] = [];
-    this.setState({ player: history });
+    const payload = {
+      id: this.props.currentPlayer[0].id,
+      mode: this.state.activeMode
+    }
+    this.props.cleanHistoryAction(payload);
   };
 
   render() {
-    const history = this.props.player[0].history[this.state.activeMode];
     return (
       <div className="row">
         <div className="col-md-6">
@@ -128,20 +131,34 @@ class GuessForm extends Component {
           </form>
         </div>
         <div className="col-md-6">
-          <PlayerHistory history={history} />
-          <button onClick={this.cleanHistory} className="btn btn-dark">
+          <PlayerHistory id={this.props.currentPlayer[0].id} activeMode={this.state.activeMode}/>
+          <button onClick={this.cleanHistory} className="btn btn-dark"> 
             Clear history
-          </button>
+          </button> 
         </div>
       </div>
     );
   }
 }
 
-export default GuessForm;
+const mapDispatchToProps = dispatch => {
+  return {
+      guessBtnAction: history => {
+          dispatch(updateHistory(history))
+      },
+      cleanHistoryAction: players => {
+          dispatch(clearHistory(players))
+      }
+  }
+}
+
+export default connect(null, mapDispatchToProps)(GuessForm);
 
 GuessForm.propTypes = {
   player: PropTypes.array,
+  currentPlayer: PropTypes.array,
   deletePlayer: PropTypes.func,
-  cancelPlayerModifyAction: PropTypes.func
+  cancelPlayerModifyAction: PropTypes.func,
+  cleanHistoryAction: PropTypes.func,
+  guessBtnAction: PropTypes.func
 };

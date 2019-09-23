@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
-import '../assets/App.css';
+import './assets/App.css';
 import "bootstrap/dist/css/bootstrap.min.css";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import Player from './containers/Player/Player.js';
 import Game from './containers/Game/Game.js';
-import Navbar from './Navbar';
+import Navbar from './components/Navbar/Navbar.js';
+import { connect } from 'react-redux';
+
 
 class App extends Component {
   render() {
@@ -12,12 +14,18 @@ class App extends Component {
       <Router>
         <div className="container-fluid">
           <Navbar />
-          <Route path="/" exact component={Game} />
-          <Route path="/create" component={Player} />
+          <Route path="/" exact render={() => <Game />} />
+          <Route path="/create" render={() => <Player {...this.props} />} />
         </div>
       </Router>
     );
   }
 }
 
-export default App;
+const mapStateToProps = state => {
+  return {
+    players: state.players,
+  }
+}
+
+export default connect(mapStateToProps)(App);

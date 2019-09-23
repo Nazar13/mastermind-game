@@ -6,7 +6,7 @@ class AddPlayer extends Component {
     name: ""
   };
 
-  inputHandler = (e) => {
+  inputHandler = e => {
     this.setState({ name: e.target.value });
   };
 
@@ -17,6 +17,7 @@ class AddPlayer extends Component {
   };
 
   cancelPlayerModifyActionHandler = () => {
+    console.log(this.props);
     this.props.cancelPlayerModifyAction({ create: false });
   };
 

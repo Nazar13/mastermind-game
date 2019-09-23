@@ -1,0 +1,5 @@
+export const ADD_PLAYER = "ADD_PLAYER";
+export const SAVE_PLAYER = "SAVE_PLAYER";
+export const DELETE_PLAYER = "DELETE_PLAYER";
+export const UPDATE_HISTORY = "UPDATE_HISTORY";
+export const CLEAR_HISTORY = "CLEAR_HISTORY";
