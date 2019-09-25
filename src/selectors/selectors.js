@@ -17,3 +17,7 @@ export const getActivePlayer = state => {
 export const getOnDelete = state => {
   return state.managePlayers.onDelete;
 };
+
+export const getAuthStatus = state => {
+  return state.managePlayers.isAuthenticated;
+};

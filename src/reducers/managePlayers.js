@@ -5,7 +5,8 @@ import {
   SET_ACTIVE_PLAYER,
   EDIT_SAVE,
   ONDELETE_TOGGLE,
-  DELETE_SAVE
+  DELETE_SAVE,
+  AUTH
 } from "../actions/actionsList.js";
 import { defaultPlayers } from "../../src/defaultPlayersList.js";
 
@@ -14,7 +15,8 @@ const intialState = {
   onAdd: false,
   onEdit: false,
   onDelete: false,
-  activePlayer: {}
+  activePlayer: {},
+  isAuthenticated: false
 };
 
 const managePlayers = (state = intialState, action) => {
@@ -62,6 +64,12 @@ const managePlayers = (state = intialState, action) => {
       return {
         ...state,
         players: action.payload
+      };
+
+    case AUTH:
+      return {
+        ...state,
+        isAuthenticated: action.payload
       };
 
     default:

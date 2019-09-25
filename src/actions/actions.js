@@ -1,17 +1,9 @@
  export const addNewPlayer = newPlayer => {
-
     return {
       type: "ADD_PLAYER",
       payload: newPlayer
     }
   }
-
-  // export const savePlayer = players => {
-  //   return {
-  //     type: "SAVE_PLAYER",
-  //     payload: players
-  //   }
-  // }
 
   export const deletePlayer = players => {
     return {
@@ -47,7 +39,6 @@
   }
 
   export const setActivePlayer = (player) => {
-    console.log(player);
     return {
       type: "SET_ACTIVE_PLAYER",
       payload: player
@@ -56,7 +47,6 @@
 
 
   export const onEditSave = (players) => {
-    console.log(players);
     return {
       type: "EDIT_SAVE",
       payload: players
@@ -70,7 +60,6 @@
   }
 
   export const onDeleleSave = (players) => {
-    console.log(players);
     return {
       type: "DELETE_SAVE",
       payload: players
@@ -84,6 +73,12 @@
     }
   }
 
+  export const auth = (status) => {
+    return {
+      type: "AUTH",
+      payload: status
+    }
+  }
 
 
   
