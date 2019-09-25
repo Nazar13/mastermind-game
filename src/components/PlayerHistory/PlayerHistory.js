@@ -1,43 +1,45 @@
-import React, { Component } from "react";
+import React from "react";
 import PropTypes from "prop-types";
-import { connect } from 'react-redux';
+import { connect } from "react-redux";
+import { Row, Col, Table } from "react-bootstrap";
 
-class PlayerHistory extends Component {
-    renderHistoryTableData(){
-        const player = this.props.players.filter(user => user.id === this.props.id);
-        const data = player[0].history[this.props.activeMode];
-        return data.length ? (
-            data.map((item) => {
-            return ( 
-                <tr key={item.number}>
-                    <td>{item.number}</td><td>{item.result}</td>
-                </tr>
-            )
-        })) : null;
-    }
-
-    render() {
-        return (
-            <div>
-                <h3 className="text-center">History</h3>
-                <table className="table table-striped">
-                    <thead>
-                        <tr>
-                            <th>Number</th><th>Result</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {this.renderHistoryTableData()}
-                    </tbody>
-                </table> 
-            </div>
-        );
-    }
-}
+const PlayerHistory = props => {
+  function renderHistoryTableData() {
+    const { players } = props;
+    const player = players.filter(player => player.id === props.id);
+    const data = player[0].history[props.activeMode];
+    return data.length
+      ? data.map(item => {
+          return (
+            <tr key={item.number}>
+              <td>{item.number}</td>
+              <td>{item.result}</td>
+            </tr>
+          );
+        })
+      : null;
+  }
+  return (
+    <Row>
+      <Col>
+        <h3 className="text-center">History</h3>
+        <Table className="table table-striped">
+          <thead>
+            <tr>
+              <th>Number</th>
+              <th>Result</th>
+            </tr>
+          </thead>
+          <tbody>{renderHistoryTableData()}</tbody>
+        </Table>
+      </Col>
+    </Row>
+  );
+};
 
 const mapStateToProps = state => {
   return {
-    players: state.players,
+    players: state.manageGameSession.players
   };
 };
 

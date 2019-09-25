@@ -1,42 +1,86 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import React from "react";
+import PropTypes from "prop-types";
+import { getPlayersList, getActivePlayer } from "../../selectors/selectors.js";
+import { InputGroup, FormControl, ButtonToolbar, Button, Row, Col } from "react-bootstrap";
+import { useState } from "react";
+import { onEditSave, onEditToggle } from "../../actions/actions.js";
+import { connect } from "react-redux";
 
-class EditPlayer extends Component {
-    state = {
-        name: this.props.player[0].name,
-    }
-    
-    inputHandler = (e) => {
-        this.setState({name: e.target.value});
-    }
+function EditPlayer(props) {
+  const [name, setName] = useState(props.activePlayer.name);
 
-    cancelPlayerModifyActionHandler = () => {
-        this.props.cancelPlayerModifyAction({edit: false});
-    } 
+  function inputHandler(e) {
+    setName(e.target.value);
+  }
 
-    savePlayerHandler = () => {
-        this.props.savePlayer(this.state.name);
-    }
-
-    render() {
-        return (
-            <div>
-                <h3 align="center">Enter Player Name</h3>
-                <div className="input-group mb-3">
-                    <input type="text" className="form-control" aria-describedby="basic-addon1"  
-                        value={this.state.name} onChange={this.inputHandler}/>
-                </div>
-                <button onClick={this.cancelPlayerModifyActionHandler} className="btn btn-outline-secondary">Cancel</button>
-                <button onClick={this.savePlayerHandler} className="btn btn-outline-success">Save</button>
-            </div>
-        )
-    }
+  function saveOnEdit() {
+    const id = props.activePlayer.id;
+    const { players } = props;
+    const playerName = { name };
+    players.forEach(player => {
+      if (player.id === id) {
+        player.name = playerName.name;
+      }
+    });
+    props.saveOnEditAction(players);
+    props.cancelOnEditAction();
+  }
+  return (
+    <Row>
+      <Col>
+        <h3 align="center">Enter Player Name</h3>
+        <InputGroup className="mb-3">
+          <FormControl
+            aria-label="Default"
+            aria-describedby="inputGroup-sizing-default"
+            placeholder="Username"
+            value={name}
+            onChange={inputHandler}
+          />
+        </InputGroup>
+        <ButtonToolbar>
+          <Button
+            variant="outline-secondary"
+            size="sm"
+            onClick={props.cancelOnEditAction}
+          >
+            Cancel
+          </Button>
+          <Button variant="outline-success" size="sm" onClick={saveOnEdit}>
+            Save
+          </Button>
+        </ButtonToolbar>
+      </Col>
+    </Row>
+  );
 }
 
-export default EditPlayer;
+const mapStateToProps = state => {
+  return {
+    players: getPlayersList(state),
+    activePlayer: getActivePlayer(state)
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    saveOnEditAction: players => {
+      dispatch(onEditSave(players));
+    },
+    cancelOnEditAction: () => {
+      dispatch(onEditToggle());
+    }
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(EditPlayer);
 
 EditPlayer.propTypes = {
-    player: PropTypes.array,
-    cancelPlayerModifyAction: PropTypes.func,
-    savePlayer: PropTypes.func, 
-  };
+  players: PropTypes.array,
+  activePlayer: PropTypes.object,
+  saveOnEditAction: PropTypes.func,
+  cancelOnEditAction: PropTypes.func
+};

@@ -1,8 +1,9 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import PlayerHistory from "../../components/PlayerHistory/PlayerHistory.js";
-import { updateHistory, clearHistory } from '../../actions/actions.js';
-import { connect } from 'react-redux';
+import { updateHistory, clearHistory } from "../../actions/actions.js";
+import { connect } from "react-redux";
+import { Row, Col, FormGroup, Form, Button } from "react-bootstrap";
 
 const modes = ["Easy", "Medium", "Hard"];
 
@@ -16,8 +17,7 @@ class GuessForm extends Component {
       Easy: this.generateNumber(10),
       Medium: this.generateNumber(100),
       Hard: this.generateNumber(1000)
-    },
-    currentPlayer: this.props.currentPlayer
+    }
   };
 
   inputNumHandler = e => {
@@ -48,7 +48,7 @@ class GuessForm extends Component {
       number: this.state.inputedNum,
       result: this.getGuessResult(),
       activeMode: this.state.activeMode,
-      id: this.props.currentPlayer[0].id, 
+      id: this.props.currentPlayer.id
     };
     this.props.guessBtnAction(history);
   };
@@ -85,78 +85,103 @@ class GuessForm extends Component {
   renderModesBar() {
     return modes.map((mode, index) => {
       return (
-      <button
-        key={index}
-        className={this.state.activeMode === mode ? "active" : null}
-        name={mode}
-        onClick={this.onModeHandlerClick}
-      >
-        {mode}
-      </button>
-      )
+        <Button
+          key={index}
+          variant="light"
+          className={this.state.activeMode === mode ? "active" : null}
+          name={mode}
+          onClick={this.onModeHandlerClick}
+        >
+          {mode}
+        </Button>
+      );
     });
   }
 
   cleanHistory = () => {
     const payload = {
-      id: this.props.currentPlayer[0].id,
+      id: this.props.currentPlayer.id,
       mode: this.state.activeMode
-    }
+    };
     this.props.cleanHistoryAction(payload);
   };
 
   render() {
     return (
-      <div className="row">
-        <div className="col-md-6">
+      <Row>
+        <Col md="6">
           <h3 className="text-center">Play game</h3>
-          <div className="modesList">{this.renderModesBar()}</div>
-          <form onSubmit={this.guessBtnHandler} className="fblock">
-            <input
-              type="number"
-              name="num"
-              className="numInput"
-              onFocus={this.onFocusHandler}
-              onChange={this.inputNumHandler}
-              autoComplete="off"
-            />
-            <br /> <br />
-            {this.state.status && this.getMessage()}
-            <input
-              type="submit"
-              className="btn btn-success btnGuess"
-              value="Guess"
-              disabled={this.state.disable}
-            />
-          </form>
-        </div>
-        <div className="col-md-6">
-          <PlayerHistory id={this.props.currentPlayer[0].id} activeMode={this.state.activeMode}/>
-          <button onClick={this.cleanHistory} className="btn btn-dark"> 
+          <Row>
+            <Col className="modesList">{this.renderModesBar()}</Col>
+          </Row>
+          <Form onSubmit={this.guessBtnHandler}>
+            <FormGroup row>
+              <Col md={10}>
+                <Form.Control
+                  type="number"
+                  name="num"
+                  className="numInput"
+                  onFocus={this.onFocusHandler}
+                  onChange={this.inputNumHandler}
+                  autoComplete="off"
+                />
+              </Col>
+            </FormGroup>
+            <FormGroup row>
+              <Col>{this.state.status && this.getMessage()}</Col>
+            </FormGroup>
+            <FormGroup row>
+              <Col md={4}>
+                <Form.Control
+                  type="submit"
+                  className="btn btn-success "
+                  value="Guess"
+                  disabled={this.state.disable}
+                />
+              </Col>
+            </FormGroup>
+          </Form>
+        </Col>
+        <Col md="6">
+          <PlayerHistory
+            id={this.props.currentPlayer.id}
+            activeMode={this.state.activeMode}
+          />
+          <Button variant="outline-dark" onClick={this.cleanHistory}>
             Clear history
-          </button> 
-        </div>
-      </div>
+          </Button>
+        </Col>
+      </Row>
     );
   }
 }
 
+const mapStateToProps = state => {
+  return {
+    players: state.manageGameSession.players,
+    currentPlayer: state.currentPlayer.currentPlayer
+  };
+};
+
 const mapDispatchToProps = dispatch => {
   return {
-      guessBtnAction: history => {
-          dispatch(updateHistory(history))
-      },
-      cleanHistoryAction: players => {
-          dispatch(clearHistory(players))
-      }
-  }
-}
+    guessBtnAction: history => {
+      dispatch(updateHistory(history));
+    },
+    cleanHistoryAction: players => {
+      dispatch(clearHistory(players));
+    }
+  };
+};
 
-export default connect(null, mapDispatchToProps)(GuessForm);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(GuessForm);
 
 GuessForm.propTypes = {
   player: PropTypes.array,
-  currentPlayer: PropTypes.array,
+  currentPlayer: PropTypes.object,
   deletePlayer: PropTypes.func,
   cancelPlayerModifyAction: PropTypes.func,
   cleanHistoryAction: PropTypes.func,

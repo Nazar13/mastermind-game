@@ -1,60 +1,91 @@
-import React, { Component } from "react";
+import React from "react";
+import { useState } from "react";
 import PropTypes from "prop-types";
+import { addNewPlayer, onAddToggle } from "../../actions/actions.js";
+import { getPlayersList } from "../../selectors/selectors.js";
+import { connect } from "react-redux";
+import { InputGroup, FormControl, ButtonToolbar, Button, Row, Col } from "react-bootstrap";
 
-class AddPlayer extends Component {
-  state = {
-    name: ""
-  };
+function AddPlayer(props) {
+  const [name, setName] = useState("");
 
-  inputHandler = e => {
-    this.setState({ name: e.target.value });
-  };
-
-  addPlayerHandler = () => {
-    const { name } = this.state;
-    const { addNewPlayer } = this.props;
-    addNewPlayer(name);
-  };
-
-  cancelPlayerModifyActionHandler = () => {
-    console.log(this.props);
-    this.props.cancelPlayerModifyAction({ create: false });
-  };
-
-  render() {
-    return (
-      <div>
-        <h3 align="center">Enter Player Name</h3>
-        <div className="input-group mb-3">
-          <input
-            type="text"
-            onChange={this.inputHandler}
-            className="form-control"
-            placeholder="Username"
-            aria-label="Username"
-            aria-describedby="basic-addon1"
-          />
-        </div>
-        <button
-          onClick={this.cancelPlayerModifyActionHandler}
-          className="btn btn-outline-secondary"
-        >
-          Cancel
-        </button>
-        <button
-          onClick={this.addPlayerHandler}
-          className="btn btn-outline-success"
-        >
-          Save
-        </button>
-      </div>
-    );
+  function inputHandler(e) {
+    setName(e.target.value);
   }
+
+  function saveOnAddAction() {
+    const playerName = { name };
+    const len = props.players[props.players.length - 1].id + 1;
+    const newPlayer = {
+      id: len,
+      name: playerName.name,
+      history: {
+        Easy: [],
+        Medium: [],
+        Hard: []
+      }
+    };
+    props.addNewPlayerAction(newPlayer);
+    props.cancelOnAddAction();
+  }
+
+  return (
+    <Row>
+      <Col md={8}>
+        <br/>
+        <h3 align="center">Enter Player Name</h3>
+        <InputGroup className="mb-3">
+          <FormControl
+            aria-label="Default"
+            aria-describedby="inputGroup-sizing-default"
+            placeholder="Username"
+            onChange={inputHandler}
+          />
+        </InputGroup>
+        <ButtonToolbar>
+          <Button
+            variant="outline-secondary"
+            size="sm"
+            onClick={props.cancelOnAddAction}
+          >
+            Cancel
+          </Button>
+          <Button variant="outline-success" 
+            size="sm" 
+            onClick={saveOnAddAction}
+          >
+            Save
+          </Button>
+        </ButtonToolbar>
+      </Col>
+    </Row>
+  );
 }
 
-export default AddPlayer;
+const mapStateToProps = state => {
+  return {
+    players: getPlayersList(state)
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    cancelOnAddAction: () => {
+      dispatch(onAddToggle());
+    },
+    addNewPlayerAction: newPlayer => {
+      dispatch(addNewPlayer(newPlayer));
+    }
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(AddPlayer);
 
 AddPlayer.propTypes = {
-  addNewPlayer: PropTypes.func,
-  cancelPlayerModifyAction: PropTypes.func
+  players: PropTypes.array,
+  addNewPlayerAction: PropTypes.func,
+  cancelOnAddAction: PropTypes.func
 };
