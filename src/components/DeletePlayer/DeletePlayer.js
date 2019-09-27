@@ -1,9 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { ButtonToolbar, Button, Row, Col } from "react-bootstrap";
-import { onDeleleSave, onDeleteToggle } from "../../actions/actions.js";
-import { connect } from "react-redux";
-import { getPlayersList, getActivePlayer } from "../../selectors/selectors.js";
 
 const DeletePlayer = props => {
   function deletePlayerHandler() {
@@ -45,28 +42,7 @@ const DeletePlayer = props => {
   );
 };
 
-const mapStateToProps = state => {
-  return {
-    players: getPlayersList(state),
-    activePlayer: getActivePlayer(state)
-  };
-};
-
-const mapDispatchToProps = dispatch => {
-  return {
-    onDeleteAction: players => {
-      dispatch(onDeleleSave(players));
-    },
-    cancelOnDeleteAction: () => {
-      dispatch(onDeleteToggle());
-    }
-  };
-};
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(DeletePlayer);
+export default DeletePlayer;
 
 DeletePlayer.propTypes = {
   players: PropTypes.array,

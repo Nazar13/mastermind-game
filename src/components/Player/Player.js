@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import AddPlayer from "../../components/AddPlayer/AddPlayer.js";
 import EditPlayer from "../../components/EditPlayer/EditPlayer.js";
-import DeletePlayer from "../../components/DeletePlayer/DeletePlayer.js";
+import Delete from "../../containers/Delete";
 import { Row, Col, Button, Table } from "react-bootstrap";
 
 const Player = props => {
@@ -70,7 +70,7 @@ const Player = props => {
       </Col>
       <Col>
         {props.onEdit && <EditPlayer />}
-        {props.onDelete && <DeletePlayer />}
+        {props.onDelete && <Delete />}
       </Col>
     </Row>
   );

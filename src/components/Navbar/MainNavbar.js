@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { Navbar, Nav } from "react-bootstrap";
 import { connect } from "react-redux";
 import { getAuthStatus } from "../../selectors/selectors.js";
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 
 function MainNavbar(props) {
   return (
@@ -15,16 +15,18 @@ function MainNavbar(props) {
         <Link to="/" className="nav-link">
           Play Game
         </Link>
-        { (props.isAuthenticated) && (<Link to="/create" className="nav-link">
+        {props.isAuthenticated && (
+          <Link to="/create" className="nav-link">
             Create New Player
-          </Link>)
-        }
+          </Link>
+        )}
       </Nav>
       <Nav>
-        { (props.isAuthenticated) ? 
-          <Link to="/logout">Log Out</Link> :
-          <Link to="/login">Log In</Link>     
-        }
+        {props.isAuthenticated ? (
+          <Link to="/logout">Log Out</Link>
+        ) : (
+          <Link to="/login">Log In</Link>
+        )}
       </Nav>
     </Navbar>
   );
@@ -32,12 +34,12 @@ function MainNavbar(props) {
 
 const mapStateToProps = state => {
   return {
-    isAuthenticated: getAuthStatus(state),
+    isAuthenticated: getAuthStatus(state)
   };
 };
 
 export default connect(mapStateToProps)(MainNavbar);
 
 MainNavbar.propTypes = {
-  isAuthenticated: PropTypes.bool,
+  isAuthenticated: PropTypes.bool
 };
