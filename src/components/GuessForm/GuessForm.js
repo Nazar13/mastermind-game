@@ -158,8 +158,8 @@ class GuessForm extends Component {
 
 const mapStateToProps = state => {
   return {
-    players: state.manageGameSession.players,
-    currentPlayer: state.currentPlayer.currentPlayer
+    players: state.managePlayers.players,
+    currentPlayer: state.currentPlayer
   };
 };
 

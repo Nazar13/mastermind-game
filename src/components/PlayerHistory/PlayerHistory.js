@@ -39,7 +39,7 @@ const PlayerHistory = props => {
 
 const mapStateToProps = state => {
   return {
-    players: state.manageGameSession.players
+    players: state.managePlayers.players
   };
 };
 
