@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { ButtonToolbar, Button, Row, Col } from "react-bootstrap";
+import { Button, ButtonToolbar, Col, Row } from "react-bootstrap";
 
 const DeletePlayer = props => {
   function deletePlayerHandler() {

@@ -6,7 +6,9 @@ import {
   EDIT_SAVE,
   ONDELETE_TOGGLE,
   DELETE_SAVE,
-  AUTH
+  AUTH,
+  UPDATE_HISTORY,
+  CLEAR_HISTORY
 } from "../actions/actionsList.js";
 import { defaultPlayers } from "../../src/defaultPlayersList.js";
 
@@ -20,8 +22,10 @@ const intialState = {
 };
 
 const managePlayers = (state = intialState, action) => {
-  const newState = { ...state };
   let toggle;
+  const newState = { ...state };
+  const playerList = [...state.players];
+  const players = [...state.players];
   switch (action.type) {
     case ADD_PLAYER:
       newState.players.push(action.payload);
@@ -70,6 +74,31 @@ const managePlayers = (state = intialState, action) => {
       return {
         ...state,
         isAuthenticated: action.payload
+      };
+
+    case UPDATE_HISTORY:
+      players.forEach(player => {
+        if (player.id === action.payload.id) {
+          player.history[action.payload.activeMode].push({
+            number: action.payload.number,
+            result: action.payload.result
+          });
+        }
+      });
+      return {
+        ...state,
+        players: players
+      };
+
+    case CLEAR_HISTORY:
+      playerList.forEach(player => {
+        if (player.id === action.payload.id) {
+          player.history[action.payload.mode] = [];
+        }
+      });
+      return {
+        ...state,
+        players: playerList
       };
 
     default:

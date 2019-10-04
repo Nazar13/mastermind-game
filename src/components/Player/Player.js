@@ -1,9 +1,9 @@
 import React from "react";
-import PropTypes from "prop-types";
 import AddPlayer from "../../components/AddPlayer/AddPlayer.js";
 import EditPlayer from "../../components/EditPlayer/EditPlayer.js";
 import Delete from "../../containers/Delete";
 import { Row, Col, Button, Table } from "react-bootstrap";
+import PropTypes from "prop-types";
 
 const Player = props => {
   function setActivePlayer(id) {
