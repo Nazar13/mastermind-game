@@ -1,0 +1,1 @@
+export const LOGIN_ENDPOINT = 'https://micro-auth-mongo.herokuapp.com/users';
