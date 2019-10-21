@@ -12,21 +12,22 @@ function MainNavbar(props) {
         Masterminds App
       </Link>
       <Nav className="mr-auto">
-        <Link to="/" className="nav-link">
+        <Link to="/play" className="nav-link">
           Play Game
         </Link>
-        {props.isAuthenticated && (
-          <Link to="/create" className="nav-link">
-            Create New Player
-          </Link>
-        )}
+        {/* {props.isAuthenticated && ( */}
+        <Link to="/create" className="nav-link">
+          Create New Player
+        </Link>
+        {/* )} */}
       </Nav>
       <Nav>
-        {props.isAuthenticated ? (
+        <Link to="/">Log Out</Link>
+        {/* {props.isAuthenticated ? (
           <Link to="/logout">Log Out</Link>
         ) : (
           <Link to="/login">Log In</Link>
-        )}
+        )} */}
       </Nav>
     </Navbar>
   );

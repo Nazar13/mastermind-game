@@ -5,7 +5,8 @@ import PropTypes from "prop-types";
 import { useState } from "react";
 import { setCurrentPlayerAction } from "../../actions/actions.js";
 import { Form } from "react-bootstrap";
-import { Row, Col } from "react-bootstrap";
+import { Row, Col, Button } from "react-bootstrap";
+import { requestPlayers } from "../../saga/sagas.js";
 
 const Game = props => {
   const [playerName, setPlayerName] = useState("Select player");
@@ -28,6 +29,19 @@ const Game = props => {
     }
   };
 
+  // const fetchPlayer = () => {
+  //   return { type: "REQUEST_PLAYERS_SUCCESS" };
+  // };
+  const showMongoUsers = () => {
+    let lis = "2222";
+    if (props.mongoUsers !== undefined) {
+      lis = props.mongoUsers.map(item => {
+        return <p>{item.username}</p>;
+      });
+    }
+    console.log(lis);
+    return lis;
+  };
   return (
     <Row>
       <Col md="2">
@@ -38,6 +52,10 @@ const Game = props => {
             {generatePlayersList()}
           </Form.Control>
         </Form.Group>
+        <Button onClick={props.disFetchPlayers} variant="outline-primary">
+          Fetch Players
+        </Button>
+        <p>{showMongoUsers()}</p>
       </Col>
       <Col md={{ size: 8, offset: 1 }}>
         {playerName !== "Select player" && <GuessForm />}
@@ -49,7 +67,8 @@ const Game = props => {
 const mapStateToProps = state => {
   return {
     players: state.managePlayers.players,
-    currentPlayer: state.currentPlayer
+    currentPlayer: state.currentPlayer,
+    mongoUsers: state.managePlayers.tempState
   };
 };
 
@@ -57,6 +76,9 @@ const mapDispatchToProps = dispatch => {
   return {
     setCurrentPlayer: currentPlayer => {
       dispatch(setCurrentPlayerAction(currentPlayer));
+    },
+    disFetchPlayers: () => {
+      dispatch({ type: "FETCH_PLAYERS" });
     }
   };
 };
@@ -69,5 +91,8 @@ export default connect(
 Game.propTypes = {
   players: PropTypes.array,
   currentPlayer: PropTypes.object,
-  setCurrentPlayer: PropTypes.func
+  setCurrentPlayer: PropTypes.func,
+  disFetchPlayers: PropTypes.func,
+  mongoUsers: PropTypes.array,
+  username: PropTypes.array
 };

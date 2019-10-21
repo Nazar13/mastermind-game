@@ -6,8 +6,9 @@ import { connect } from "react-redux";
 import { getAuthStatus } from "../../selectors/selectors.js";
 import { auth } from "../../actions/actions.js";
 import { Redirect } from "react-router-dom";
+import axios from "axios";
 
-const Login = props => {
+const LoginPage = props => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [badCreds, setBadCreds] = useState(false);
@@ -16,6 +17,12 @@ const Login = props => {
     e.preventDefault();
     const testEmail = "Nazar";
     const testPassword = "123";
+    axios
+      .get("https://jsonplaceholder.typicode.com/users")
+      .then(res => console.log(res.data));
+    // .then(res => alert(res));
+    // alert(email);
+
     if (email === testEmail && password === testPassword) {
       props.userAuth(true);
       setBadCreds(false);
@@ -91,9 +98,9 @@ const mapDispatchToProps = dispatch => {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(Login);
+)(LoginPage);
 
-Login.propTypes = {
+LoginPage.propTypes = {
   isAuthenticated: PropTypes.bool,
   userAuth: PropTypes.func
 };

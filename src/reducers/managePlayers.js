@@ -8,7 +8,10 @@ import {
   DELETE_SAVE,
   AUTH,
   UPDATE_HISTORY,
-  CLEAR_HISTORY
+  CLEAR_HISTORY,
+  REQUEST_PLAYERS,
+  REQUEST_PLAYERS_SUCCESS,
+  REQUEST_PLAYERS_ERROR
 } from "../actions/actionsList.js";
 import { defaultPlayers } from "../../src/defaultPlayersList.js";
 
@@ -18,7 +21,9 @@ const intialState = {
   onEdit: false,
   onDelete: false,
   activePlayer: {},
-  isAuthenticated: false
+  isAuthenticated: false,
+  loading: false,
+  tempState: []
 };
 
 const managePlayers = (state = intialState, action) => {
@@ -99,6 +104,24 @@ const managePlayers = (state = intialState, action) => {
       return {
         ...state,
         players: playerList
+      };
+    case REQUEST_PLAYERS:
+      return {
+        ...state,
+        loading: true
+      };
+
+    case REQUEST_PLAYERS_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        tempState: action.payload
+      };
+
+    case REQUEST_PLAYERS_ERROR:
+      return {
+        ...state,
+        loading: true
       };
 
     default:
