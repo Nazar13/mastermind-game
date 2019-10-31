@@ -14,7 +14,7 @@ const LoginPage = props => {
 
   function onLogin(e) {
     e.preventDefault();
-    props.auth('Nazar', '567');
+    props.auth(email, password);
     // const testEmail = "Nazar";
     // const testPassword = "123";
     // if (email === testEmail && password === testPassword) {
@@ -90,8 +90,8 @@ const mapDispatchToProps = dispatch => {
     },
     auth: (login, pass) => {
       const creds = {
-        login: login,
-        pass: pass
+        username: login,
+        password: pass
       }
       dispatch({type:'USER_AUTH', payload: creds});
     }

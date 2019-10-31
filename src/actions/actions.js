@@ -75,7 +75,7 @@
 
   export const auth = (status) => {
     return {
-      type: "AUTH",
+      type: "USER_AUTH",
       payload: status
     }
   }
