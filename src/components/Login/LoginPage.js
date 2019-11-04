@@ -10,20 +10,11 @@ import { Redirect } from "react-router-dom";
 const LoginPage = props => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [badCreds, setBadCreds] = useState(false);
+  const [badCreds] = useState(false);
 
   function onLogin(e) {
     e.preventDefault();
     props.auth(email, password);
-    // const testEmail = "Nazar";
-    // const testPassword = "123";
-    // if (email === testEmail && password === testPassword) {
-    //   props.userAuth(true);
-    //   setBadCreds(false);
-    // } else {
-    //   setBadCreds(true);
-    //   props.userAuth(false);
-    // }
   }
 
   const handleEmail = e => {
@@ -33,10 +24,9 @@ const LoginPage = props => {
   const handlePassword = e => {
     setPassword(e.target.value);
   };
-
   return (
     <>
-      {props.isAuthenticated ? (
+        {localStorage.getItem('authToken') ? (
         <Redirect to="/dashboard" />
       ) : (
         <Row>
@@ -72,7 +62,7 @@ const LoginPage = props => {
           </Col>
           <Col md="5"></Col>
         </Row>
-      )}
+       )} 
     </>
   );
 };
