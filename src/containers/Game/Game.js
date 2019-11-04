@@ -8,12 +8,13 @@ import { Form } from "react-bootstrap";
 import { Row, Col } from "react-bootstrap";
 
 const Game = props => {
+  console.log(props);
   const [playerName, setPlayerName] = useState("Select player");
 
   function generatePlayersList() {
     return props.players.map(player => (
-      <option key={player.id} value={player.name}>
-        {player.name}
+      <option key={player._id} value={player.username}>
+        {player.username}
       </option>
     ));
   }
@@ -40,7 +41,8 @@ const Game = props => {
         </Form.Group>
       </Col>
       <Col md={{ size: 8, offset: 1 }}>
-        {playerName !== "Select player" && <GuessForm />}
+        {/*  Turned off the game board for now */}
+        {/* {playerName !== "Select player" && <GuessForm />} */}
       </Col>
     </Row>
   );

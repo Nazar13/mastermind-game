@@ -33,14 +33,14 @@ const Player = props => {
           </thead>
           <tbody>
             {props.players.map((player, index) => (
-              <tr key={player.id * player.id}>
+              <tr key={player._id}>
                 <td>{index + 1}</td>
-                <td key={player.id} value={player.name}>
-                  {player.name}
+                <td key={player._id} value={player.username}>
+                  {player.username}
                 </td>
                 <td>
                   <Button
-                    onClick={() => setActivePlayer(player.id)}
+                    onClick={() => setActivePlayer(player._id)}
                     variant="outline-primary"
                   >
                     Edit Player
@@ -48,7 +48,7 @@ const Player = props => {
                 </td>
                 <td>
                   <Button
-                    onClick={() => setActiveDeletePlayer(player.id)}
+                    onClick={() => setActiveDeletePlayer(player._id)}
                     variant="outline-danger"
                   >
                     Delete Player

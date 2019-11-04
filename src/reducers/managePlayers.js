@@ -8,7 +8,8 @@ import {
   DELETE_SAVE,
   AUTH,
   UPDATE_HISTORY,
-  CLEAR_HISTORY
+  CLEAR_HISTORY,
+  LOGIN_USER_SUCCESS
 } from "../actions/actionsList.js";
 import { defaultPlayers } from "../../src/defaultPlayersList.js";
 
@@ -99,6 +100,13 @@ const managePlayers = (state = intialState, action) => {
       return {
         ...state,
         players: playerList
+      };
+
+    case LOGIN_USER_SUCCESS:
+      return {
+        ...state,
+        players: action.response,
+        isAuthenticated: true,
       };
 
     default:

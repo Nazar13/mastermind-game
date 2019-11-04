@@ -11,3 +11,6 @@ export const ONDELETE_TOGGLE = "ONDELETE_TOGGLE";
 export const DELETE_SAVE = "DELETE_SAVE";
 export const SET_CURRENT_PLAYER = "SET_CURRENT_PLAYER";
 export const AUTH = "AUTH";
+export const USER_AUTH = "USER_AUTH";
+export const LOGIN_USER_SUCCESS = "LOGIN_USER_SUCCESS";
+export const LOGIN_USER_ERROR = "LOGIN_USER_ERROR";

@@ -7,22 +7,14 @@ import { getAuthStatus } from "../../selectors/selectors.js";
 import { auth } from "../../actions/actions.js";
 import { Redirect } from "react-router-dom";
 
-const Login = props => {
+const LoginPage = props => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [badCreds, setBadCreds] = useState(false);
+  const [badCreds] = useState(false);
 
   function onLogin(e) {
     e.preventDefault();
-    const testEmail = "Nazar";
-    const testPassword = "123";
-    if (email === testEmail && password === testPassword) {
-      props.userAuth(true);
-      setBadCreds(false);
-    } else {
-      setBadCreds(true);
-      props.userAuth(false);
-    }
+    props.auth(email, password);
   }
 
   const handleEmail = e => {
@@ -32,14 +24,15 @@ const Login = props => {
   const handlePassword = e => {
     setPassword(e.target.value);
   };
-
   return (
     <>
-      {props.isAuthenticated ? (
-        <Redirect to="/" />
+        {localStorage.getItem('authToken') ? (
+        <Redirect to="/dashboard" />
       ) : (
         <Row>
           <Col md={{ size: 3, offset: 4 }}>
+            <br/>
+            <br/>
             <Form onSubmit={onLogin}>
               <Form.Group controlId="formBasicEmail">
                 <Form.Label>Name</Form.Label>
@@ -62,14 +55,14 @@ const Login = props => {
                   </Form.Text>
                 )}
               </Form.Group>
-              <Button variant="primary" type="submit">
+              <Button variant="primary" className="float-right"  type="submit">
                 Login
               </Button>
             </Form>
           </Col>
           <Col md="5"></Col>
         </Row>
-      )}
+       )} 
     </>
   );
 };
@@ -84,6 +77,13 @@ const mapDispatchToProps = dispatch => {
   return {
     userAuth: status => {
       dispatch(auth(status));
+    },
+    auth: (login, pass) => {
+      const creds = {
+        username: login,
+        password: pass
+      }
+      dispatch({type:'USER_AUTH', payload: creds});
     }
   };
 };
@@ -91,9 +91,9 @@ const mapDispatchToProps = dispatch => {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(Login);
+)(LoginPage);
 
-Login.propTypes = {
+LoginPage.propTypes = {
   isAuthenticated: PropTypes.bool,
   userAuth: PropTypes.func
 };
